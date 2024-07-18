@@ -60,7 +60,7 @@ def display_footer():
     }
     .footer .separator {
         border-left: 2px solid #eaeaea;
-        height: 120px;
+        height: px;
         margin-right: 20px;
     }
     </style>
@@ -82,11 +82,11 @@ def main():
     frame_rate = st.selectbox("Select Frame Rate (fps)", frame_rate_options, index=1)
 
     st.write("## Timecode to Seconds Conversion")
-    timecode_input = st.text_input("Enter Timecode or as a continuous string of numbers", value="00:00:00:00")
-    formatted_timecode_input = parse_timecode_input(timecode_input)
-    timecode_input = st.text_input("Formatted Timecode", value=formatted_timecode_input)
+    timecode_input = st.text_input("Enter Timecode or as a continuous string of numbers", key="timecode_input", value="00:00:00:00")
     if st.button("Convert to Seconds"):
-        seconds = timecode_to_seconds(timecode_input, frame_rate)
+        formatted_timecode_input = parse_timecode_input(timecode_input)
+        st.session_state.timecode_input = formatted_timecode_input
+        seconds = timecode_to_seconds(formatted_timecode_input, frame_rate)
         st.write(f"Total seconds: {seconds}")
 
     st.write("## Seconds to Timecode Conversion")
@@ -96,26 +96,4 @@ def main():
         st.write(f"Timecode: {timecode}")
 
     st.write("## Timecode Addition/Subtraction")
-    operation = st.selectbox("Select Operation", ["Add", "Subtract"])
-    timecode1 = st.text_input("Timecode 1 format or as a continuous string of numbers", value="00:00:00:00")
-    formatted_timecode1 = parse_timecode_input(timecode1)
-    timecode1 = st.text_input("Formatted Timecode 1", value=formatted_timecode1)
-    timecode2 = st.text_input("Timecode 2 format or as a continuous string of numbers", value="00:00:00:00")
-    formatted_timecode2 = parse_timecode_input(timecode2)
-    timecode2 = st.text_input("Formatted Timecode 2", value=formatted_timecode2)
-    
-    if operation == "Add":
-        if st.button("Perform Operation"):
-            total_seconds = timecode_to_seconds(timecode1, frame_rate) + timecode_to_seconds(timecode2, frame_rate)
-            result_timecode = seconds_to_timecode(total_seconds, frame_rate)
-            st.write(f"Result: {result_timecode}")
-    elif operation == "Subtract":
-        if st.button("Perform Operation"):
-            total_seconds = timecode_to_seconds(timecode1, frame_rate) - timecode_to_seconds(timecode2, frame_rate)
-            result_timecode = seconds_to_timecode(total_seconds, frame_rate)
-            st.write(f"Result: {result_timecode}")
-
-    display_footer()
-            
-if __name__ == "__main__":
-    main()
+    operation = st.selectbox​⬤
