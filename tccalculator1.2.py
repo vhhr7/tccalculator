@@ -82,11 +82,12 @@ def main():
     frame_rate = st.selectbox("Select Frame Rate (fps)", frame_rate_options, index=1)
 
     st.write("## Timecode to Seconds Conversion")
-    timecode_input = st.text_input("Enter Timecode or as a continuous string of numbers", key="timecode_input", value="00:00:00:00")
+    if "timecode_input" not in st.session_state:
+        st.session_state.timecode_input = "00:00:00:00"
+    timecode_input = st.text_input("Enter Timecode or as a continuous string of numbers", key="timecode_input")
+    formatted_timecode_input = parse_timecode_input(timecode_input)
     if st.button("Convert to Seconds"):
-        formatted_timecode_input = parse_timecode_input(timecode_input)
         st.session_state.timecode_input = formatted_timecode_input
-        st.experimental_rerun()
         seconds = timecode_to_seconds(formatted_timecode_input, frame_rate)
         st.write(f"Total seconds: {seconds}")
 
@@ -97,9 +98,13 @@ def main():
         st.write(f"Timecode: {timecode}")
 
     st.write("## Timecode Addition/Subtraction")
+    if "timecode1" not in st.session_state:
+        st.session_state.timecode1 = "00:00:00:00"
+    if "timecode2" not in st.session_state:
+        st.session_state.timecode2 = "00:00:00:00"
     operation = st.selectbox("Select Operation", ["Add", "Subtract"])
-    timecode1 = st.text_input("Timecode 1 format or as a continuous string of numbers", key="timecode1", value="00:00:00:00")
-    timecode2 = st.text_input("Timecode 2 format or as a continuous string of numbers", key="timecode2", value="00:00:00:00")
+    timecode1 = st.text_input("Timecode 1 format or as a continuous string of numbers", key="timecode1")
+    timecode2 = st.text_input("Timecode 2 format or as a continuous string of numbers", key="timecode2")
     
     if operation == "Add":
         if st.button("Perform Operation"):
@@ -107,7 +112,6 @@ def main():
             formatted_timecode2 = parse_timecode_input(timecode2)
             st.session_state.timecode1 = formatted_timecode1
             st.session_state.timecode2 = formatted_timecode2
-            st.experimental_rerun()
             total_seconds = timecode_to_seconds(formatted_timecode1, frame_rate) + timecode_to_seconds(formatted_timecode2, frame_rate)
             result_timecode = seconds_to_timecode(total_seconds, frame_rate)
             st.write(f"Result: {result_timecode}")
@@ -117,7 +121,6 @@ def main():
             formatted_timecode2 = parse_timecode_input(timecode2)
             st.session_state.timecode1 = formatted_timecode1
             st.session_state.timecode2 = formatted_timecode2
-            st.experimental_rerun()
             total_seconds = timecode_to_seconds(formatted_timecode1, frame_rate) - timecode_to_seconds(formatted_timecode2, frame_rate)
             result_timecode = seconds_to_timecode(total_seconds, frame_rate)
             st.write(f"Result: {result_timecode}")
