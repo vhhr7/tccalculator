@@ -87,8 +87,13 @@ def main():
     timecode_input = st.text_input("Enter Timecode or as a continuous string of numbers", key="timecode_input")
     formatted_timecode_input = parse_timecode_input(timecode_input)
     if st.button("Convert to Seconds"):
+<<<<<<< HEAD
         st.session_state.timecode_input = formatted_timecode_input
         seconds = timecode_to_seconds(formatted_timecode_input, frame_rate)
+=======
+        seconds = timecode_to_seconds(timecode_input, frame_rate)
+        st.write(f"Formatted Timecode: {formatted_timecode_input}")
+>>>>>>> parent of a588ff1 (Se sobreescribe en formato correcto en el mismo lugar de entrada)
         st.write(f"Total seconds: {seconds}")
 
     st.write("## Seconds to Timecode Conversion")
@@ -103,8 +108,15 @@ def main():
     if "timecode2" not in st.session_state:
         st.session_state.timecode2 = "00:00:00:00"
     operation = st.selectbox("Select Operation", ["Add", "Subtract"])
+<<<<<<< HEAD
     timecode1 = st.text_input("Timecode 1 format or as a continuous string of numbers", key="timecode1")
     timecode2 = st.text_input("Timecode 2 format or as a continuous string of numbers", key="timecode2")
+=======
+    timecode1 = st.text_input("Timecode 1 format or as a continuous string of numbers", value="00:00:00:00")
+    timecode2 = st.text_input("Timecode 2 format or as a continuous string of numbers", value="00:00:00:00")
+    formatted_timecode1 = parse_timecode_input(timecode1)
+    formatted_timecode2 = parse_timecode_input(timecode2)
+>>>>>>> parent of a588ff1 (Se sobreescribe en formato correcto en el mismo lugar de entrada)
     
     if operation == "Add":
         if st.button("Perform Operation"):
@@ -114,6 +126,8 @@ def main():
             st.session_state.timecode2 = formatted_timecode2
             total_seconds = timecode_to_seconds(formatted_timecode1, frame_rate) + timecode_to_seconds(formatted_timecode2, frame_rate)
             result_timecode = seconds_to_timecode(total_seconds, frame_rate)
+            st.write(f"Formatted Timecode 1: {formatted_timecode1}")
+            st.write(f"Formatted Timecode 2: {formatted_timecode2}")
             st.write(f"Result: {result_timecode}")
     elif operation == "Subtract":
         if st.button("Perform Operation"):
@@ -123,6 +137,8 @@ def main():
             st.session_state.timecode2 = formatted_timecode2
             total_seconds = timecode_to_seconds(formatted_timecode1, frame_rate) - timecode_to_seconds(formatted_timecode2, frame_rate)
             result_timecode = seconds_to_timecode(total_seconds, frame_rate)
+            st.write(f"Formatted Timecode 1: {formatted_timecode1}")
+            st.write(f"Formatted Timecode 2: {formatted_timecode2}")
             st.write(f"Result: {result_timecode}")
 
     display_footer()
